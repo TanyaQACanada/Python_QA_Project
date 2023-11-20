@@ -6,9 +6,6 @@ class TestInputFormPage:
     def __init__(self, page):
         self.page = page
 
-    # def navigate(self):
-    #     self.page.goto("https://www.lambdatest.com/selenium-playground")
-
     def submit_form(self, name, email, password, company, website, country, city, address1, address2, state, zipcode):
         self.page.fill("[placeholder=\"Name\"]", name)
         self.page.fill("[placeholder=\"Email\"]", email)
