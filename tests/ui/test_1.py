@@ -2,7 +2,7 @@ import re
 import playwright
 from playwright.sync_api import Playwright, sync_playwright, expect
 from pom.input_form_page import TestInputFormPage
-
+# the first 3 test cases were written by me as part of the training for lambdatest certification
 
 def test_simple_form_demo(set_up):
     # 1. Open LambdaTest's Selenium Playground
@@ -77,4 +77,45 @@ def test_input_form_submit(set_up):
     locator = page.locator('.success-msg')
     expect(locator).to_contain_text("Thanks for contacting us, we will get back to you shortly")
 
-    
+def test_js_alerts_1(set_up):
+  page = set_up
+  page.click("text=Javascript Alerts")
+  page.wait_for_load_state("networkidle")
+  page.on("dialog", lambda dialog: dialog.accept())
+  page.locator("p").filter(has_text="JavaScript AlertsClick Me").get_by_role("button").click()
+ #  need to add some assertion
+
+def test_js_alerts_2(set_up):
+  page = set_up
+  page.click("text=Javascript Alerts")
+  page.once("dialog", lambda dialog: dialog.accept())
+  page.locator("p").filter(has_text="Confirm box:Click Me").get_by_role("button").click()
+  page.wait_for_load_state("networkidle")  
+  expect(page.locator("//p[@id='confirm-demo']").filter(has_text="You pressed OK!")).to_be_visible()
+  
+
+def test_js_alerts_3(set_up):
+  page = set_up
+  page.click("text=Javascript Alerts")
+  page.once("dialog", lambda dialog: dialog.dismiss())
+  page.locator("p").filter(has_text="Confirm box:Click Me").get_by_role("button").click()  
+  page.wait_for_load_state("networkidle")  
+  expect(page.locator("//p[@id='confirm-demo']").filter(has_text="You pressed CANCEL!")).to_be_visible()
+  
+
+def test_js_alerts_4(set_up):
+  page = set_up
+  page.click("text=Javascript Alerts")
+  page.wait_for_load_state("networkidle")
+  dialog_message = "test"
+  page.on("dialog", lambda dialog: dialog.accept(prompt_text=f"{dialog_message}"))
+  page.locator("p").filter(has_text="Prompt box:Click Me").get_by_role("button").click()
+  expect(page.locator("p").filter(has_text=f"You have entered '{dialog_message}'  !")).to_be_visible()
+
+def test_js_alerts_5(set_up):
+  page = set_up
+  page.click("text=Javascript Alerts")
+  page.wait_for_load_state("networkidle")
+  page.on("dialog", lambda dialog: dialog.dismiss())
+  page.locator("p").filter(has_text="Prompt box:Click Me").get_by_role("button").click()
+ #  need to add some assertion
