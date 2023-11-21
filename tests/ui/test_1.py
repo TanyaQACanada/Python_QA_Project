@@ -78,44 +78,76 @@ def test_input_form_submit(set_up):
     expect(locator).to_contain_text("Thanks for contacting us, we will get back to you shortly")
 
 def test_js_alerts_1(set_up):
-  page = set_up
-  page.click("text=Javascript Alerts")
-  page.wait_for_load_state("networkidle")
-  page.on("dialog", lambda dialog: dialog.accept())
-  page.locator("p").filter(has_text="JavaScript AlertsClick Me").get_by_role("button").click()
- #  need to add some assertion
+    page = set_up
+    page.click("text=Javascript Alerts")
+    page.wait_for_load_state("networkidle")
+    page.on("dialog", lambda dialog: dialog.accept())
+    page.locator("p").filter(has_text="JavaScript AlertsClick Me").get_by_role("button").click()
+  #  need to add some assertion
 
 def test_js_alerts_2(set_up):
-  page = set_up
-  page.click("text=Javascript Alerts")
-  page.once("dialog", lambda dialog: dialog.accept())
-  page.locator("p").filter(has_text="Confirm box:Click Me").get_by_role("button").click()
-  page.wait_for_load_state("networkidle")  
-  expect(page.locator("//p[@id='confirm-demo']").filter(has_text="You pressed OK!")).to_be_visible()
+    page = set_up
+    page.click("text=Javascript Alerts")
+    page.once("dialog", lambda dialog: dialog.accept())
+    page.locator("p").filter(has_text="Confirm box:Click Me").get_by_role("button").click()
+    page.wait_for_load_state("networkidle")  
+    expect(page.locator("//p[@id='confirm-demo']").filter(has_text="You pressed OK!")).to_be_visible()
   
 
 def test_js_alerts_3(set_up):
-  page = set_up
-  page.click("text=Javascript Alerts")
-  page.once("dialog", lambda dialog: dialog.dismiss())
-  page.locator("p").filter(has_text="Confirm box:Click Me").get_by_role("button").click()  
-  page.wait_for_load_state("networkidle")  
-  expect(page.locator("//p[@id='confirm-demo']").filter(has_text="You pressed CANCEL!")).to_be_visible()
-  
+    page = set_up
+    page.click("text=Javascript Alerts")
+    page.once("dialog", lambda dialog: dialog.dismiss())
+    page.locator("p").filter(has_text="Confirm box:Click Me").get_by_role("button").click()  
+    page.wait_for_load_state("networkidle")  
+    expect(page.locator("//p[@id='confirm-demo']").filter(has_text="You pressed CANCEL!")).to_be_visible()
+    
 
 def test_js_alerts_4(set_up):
-  page = set_up
-  page.click("text=Javascript Alerts")
-  page.wait_for_load_state("networkidle")
-  dialog_message = "test"
-  page.on("dialog", lambda dialog: dialog.accept(prompt_text=f"{dialog_message}"))
-  page.locator("p").filter(has_text="Prompt box:Click Me").get_by_role("button").click()
-  expect(page.locator("p").filter(has_text=f"You have entered '{dialog_message}'  !")).to_be_visible()
+    page = set_up
+    page.click("text=Javascript Alerts")
+    page.wait_for_load_state("networkidle")
+    dialog_message = "test"
+    page.on("dialog", lambda dialog: dialog.accept(prompt_text=f"{dialog_message}"))
+    page.locator("p").filter(has_text="Prompt box:Click Me").get_by_role("button").click()
+    expect(page.locator("p").filter(has_text=f"You have entered '{dialog_message}'  !")).to_be_visible()
 
 def test_js_alerts_5(set_up):
-  page = set_up
-  page.click("text=Javascript Alerts")
-  page.wait_for_load_state("networkidle")
-  page.on("dialog", lambda dialog: dialog.dismiss())
-  page.locator("p").filter(has_text="Prompt box:Click Me").get_by_role("button").click()
- #  need to add some assertion
+    page = set_up
+    page.click("text=Javascript Alerts")
+    page.wait_for_load_state("networkidle")
+    page.on("dialog", lambda dialog: dialog.dismiss())
+    page.locator("p").filter(has_text="Prompt box:Click Me").get_by_role("button").click()
+  #  need to add some assertion
+
+def test_jquery_dropdown_1(set_up):
+    page = set_up
+    # select country in frist dropdown
+    page.click("text=JQuery Select dropdown")
+    page.get_by_text("Drop Down with SearchSelect Country :").click()
+    page.get_by_label("", exact=True).locator("b").click()
+    page.get_by_role("treeitem", name="Denmark").click()
+    expect(page.locator("//span[@id='select2-country-container']").filter(has_text="Denmark")).to_be_visible()
+    # prompt country in first dropdown
+    page.get_by_title("Denmark").click()
+    page.get_by_role("textbox").nth(1).fill("ba")
+    page.get_by_role("textbox").nth(1).press("Enter")
+    page.get_by_title("Bangladesh").click()
+    expect(page.locator("//span[@id='select2-country-container']").filter(has_text="Bangladesh")).to_be_visible()
+
+def test_jquery_dropdown_2(set_up):
+    page = set_up
+    page.click("text=JQuery Select dropdown")
+    # select multiple values with search
+    page.get_by_text("Select Multiple Values with search").click()
+    page.get_by_placeholder("Select state(s)").click()
+    page.get_by_role("treeitem", name="Alaska").click()
+    page.locator("ul").filter(has_text="×Alaska").click()
+    page.get_by_role("treeitem", name="Arizona").click()
+    page.get_by_text("×Alaska×Arizona").click()
+    page.get_by_role("treeitem", name="Arkansas").click()
+    page.get_by_text("×Alaska×Arizona×Arkansas").click()
+    page.get_by_role("treeitem", name="Arkansas").click()
+    expect(page.locator("ul").filter(has_text="×Alaska×Arizona")).to_be_visible()
+    # expect(page.locator("ul").filter(has_text="×Alaska×Arizona")).not_to_contain_text("×Arkansas"))
+    
