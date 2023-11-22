@@ -90,7 +90,7 @@ def test_js_alerts_2(set_up):
     page.click("text=Javascript Alerts")
     page.once("dialog", lambda dialog: dialog.accept())
     page.locator("p").filter(has_text="Confirm box:Click Me").get_by_role("button").click()
-    page.wait_for_load_state("networkidle")  
+    # page.wait_for_load_state("networkidle")  
     expect(page.locator("//p[@id='confirm-demo']").filter(has_text="You pressed OK!")).to_be_visible()
   
 
@@ -99,7 +99,7 @@ def test_js_alerts_3(set_up):
     page.click("text=Javascript Alerts")
     page.once("dialog", lambda dialog: dialog.dismiss())
     page.locator("p").filter(has_text="Confirm box:Click Me").get_by_role("button").click()  
-    page.wait_for_load_state("networkidle")  
+    # page.wait_for_load_state("networkidle")  
     expect(page.locator("//p[@id='confirm-demo']").filter(has_text="You pressed CANCEL!")).to_be_visible()
     
 
@@ -149,5 +149,32 @@ def test_jquery_dropdown_2(set_up):
     page.get_by_text("×Alaska×Arizona×Arkansas").click()
     page.get_by_role("treeitem", name="Arkansas").click()
     expect(page.locator("ul").filter(has_text="×Alaska×Arizona")).to_be_visible()
-    # expect(page.locator("ul").filter(has_text="×Alaska×Arizona")).not_to_contain_text("×Arkansas"))
-    
+    expect(page.locator("//div[@class='wrapper']//div[2]//div[2]").filter(has_text="×Arkansas")).to_be_hidden()
+  
+def test_jquery_dropdown_3(set_up):
+    page = set_up
+    page.click("text=JQuery Select dropdown")
+    page.get_by_label("Puerto Rico").locator("b").click()
+    page.get_by_role("treeitem", name="American Samoa").click()
+    page.get_by_label("American Samoa").locator("span").nth(1).click()
+    page.get_by_role("textbox").nth(1).fill("Guam")
+    page.get_by_role("textbox").nth(1).press("ArrowDown")
+    page.get_by_role("textbox").nth(1).press("ArrowDown")
+    page.get_by_text("Select Country :Puerto RicoAmerican SamoaGuamNorthern Mariana IslandsUnited Stat").click()
+    expect(page.locator("//div[@class='wrapper']//div[3]//div[2]").filter(has_text="American Samoa")).to_be_visible()
+
+def test_jquery_dropdown_4(set_up):
+    page = set_up
+    page.click("text=JQuery Select dropdown")
+    page.get_by_label("Select a file").locator("(//select[@id='files'])[1]").click()
+    page.get_by_label("Select a file").select_option(value="Python")
+    expect(page.locator("//select[@id='files']").filter(has_text="Python")).to_be_visible()
+    page.get_by_label("Select a file").select_option(value="Ruby")
+    expect(page.locator("//select[@id='files']").filter(has_text="Ruby")).to_be_visible()
+    page.get_by_label("Select a file").select_option(value="C")
+    expect(page.locator("//select[@id='files']").filter(has_text="C")).to_be_visible()
+    page.get_by_label("Select a file").select_option(value="Unknown Script")
+    expect(page.locator("//select[@id='files']").filter(has_text="Unknown Script")).to_be_visible()
+
+   
+   
