@@ -1,4 +1,5 @@
 import pytest
+import requests
 # from tests.api.api_client import SimpleClient
 
 class SimpleClient:
