@@ -1,6 +1,6 @@
 import pytest
 import requests
-# from tests.api.api_client import SimpleClient
+from pom.api_client import SimpleClient
 
 class SimpleClient:
     def __init__(self):
