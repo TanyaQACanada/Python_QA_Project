@@ -1,5 +1,5 @@
 import pytest
-from pom.api_client import SimpleClient
+from tests.api.api_client import SimpleClient
 
 
 @pytest.fixture()
