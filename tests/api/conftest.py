@@ -1,5 +1,4 @@
 import pytest
-import requests
 from pom.api_client import SimpleClient
 
 
