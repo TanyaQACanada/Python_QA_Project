@@ -2,6 +2,8 @@ import re
 import playwright
 from playwright.sync_api import Playwright, sync_playwright, expect
 from pom.input_form_page import TestInputFormPage
+import time
+
 # the first 3 test cases were written by me as part of the training for lambdatest certification
 
 def test_simple_form_demo(set_up):
@@ -90,7 +92,7 @@ def test_js_alerts_2(set_up):
     page.click("text=Javascript Alerts")
     page.once("dialog", lambda dialog: dialog.accept())
     page.locator("p").filter(has_text="Confirm box:Click Me").get_by_role("button").click()
-    # page.wait_for_load_state("networkidle")  
+    page.wait_for_load_state("networkidle")  
     expect(page.locator("//p[@id='confirm-demo']").filter(has_text="You pressed OK!")).to_be_visible()
   
 
@@ -99,7 +101,7 @@ def test_js_alerts_3(set_up):
     page.click("text=Javascript Alerts")
     page.once("dialog", lambda dialog: dialog.dismiss())
     page.locator("p").filter(has_text="Confirm box:Click Me").get_by_role("button").click()  
-    # page.wait_for_load_state("networkidle")  
+    page.wait_for_load_state("networkidle")  
     expect(page.locator("//p[@id='confirm-demo']").filter(has_text="You pressed CANCEL!")).to_be_visible()
     
 
@@ -176,5 +178,31 @@ def test_jquery_dropdown_4(set_up):
     page.get_by_label("Select a file").select_option(value="Unknown Script")
     expect(page.locator("//select[@id='files']").filter(has_text="Unknown Script")).to_be_visible()
 
-   
-   
+
+def test_bootstrap_progress_bar_dialog_demo_1(set_up):
+  page = set_up
+  page.click("text=Progress Bar Modal")
+  page.goto("https://www.lambdatest.com/selenium-playground/bootstrap-progress-bar-dialog-demo")
+  page.get_by_role("button", name="Show dialog (Autoclose after 2 seconds)").click()
+  page.wait_for_selector('.progress-bar')
+  page.wait_for_timeout(3000)
+  expect(page.get_by_text("Loading")).to_be_hidden()
+ 
+def test_bootstrap_progress_bar_dialog_demo_2(set_up):
+  page = set_up
+  page.click("text=Progress Bar Modal")
+  page.goto("https://www.lambdatest.com/selenium-playground/bootstrap-progress-bar-dialog-demo")
+  page.get_by_role("button", name="Show dialog (Autoclose after 3 seconds)").click()
+  page.wait_for_selector('.progress-bar')
+  page.wait_for_timeout(4000)
+  expect(page.get_by_text("Custom message")).to_be_hidden()
+ 
+def test_bootstrap_progress_bar_dialog_demo_3(set_up):
+  page = set_up
+  page.click("text=Progress Bar Modal")
+  page.goto("https://www.lambdatest.com/selenium-playground/bootstrap-progress-bar-dialog-demo")
+  page.get_by_role("button", name="Show dialog (Autoclose after 5 seconds)").click()
+  page.wait_for_selector('.progress-bar')
+  page.wait_for_timeout(6000)
+  expect(page.get_by_text("Hello Mr. Alert !")).to_be_hidden()
+
