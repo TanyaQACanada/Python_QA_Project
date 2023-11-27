@@ -182,7 +182,6 @@ def test_jquery_dropdown_4(set_up):
 def test_bootstrap_progress_bar_dialog_demo_1(set_up):
   page = set_up
   page.click("text=Progress Bar Modal")
-  page.goto("https://www.lambdatest.com/selenium-playground/bootstrap-progress-bar-dialog-demo")
   page.get_by_role("button", name="Show dialog (Autoclose after 2 seconds)").click()
   page.wait_for_selector('.progress-bar')
   page.wait_for_timeout(3000)
@@ -191,7 +190,6 @@ def test_bootstrap_progress_bar_dialog_demo_1(set_up):
 def test_bootstrap_progress_bar_dialog_demo_2(set_up):
   page = set_up
   page.click("text=Progress Bar Modal")
-  page.goto("https://www.lambdatest.com/selenium-playground/bootstrap-progress-bar-dialog-demo")
   page.get_by_role("button", name="Show dialog (Autoclose after 3 seconds)").click()
   page.wait_for_selector('.progress-bar')
   page.wait_for_timeout(4000)
@@ -200,7 +198,6 @@ def test_bootstrap_progress_bar_dialog_demo_2(set_up):
 def test_bootstrap_progress_bar_dialog_demo_3(set_up):
   page = set_up
   page.click("text=Progress Bar Modal")
-  page.goto("https://www.lambdatest.com/selenium-playground/bootstrap-progress-bar-dialog-demo")
   page.get_by_role("button", name="Show dialog (Autoclose after 5 seconds)").click()
   page.wait_for_selector('.progress-bar')
   page.wait_for_timeout(6000)
