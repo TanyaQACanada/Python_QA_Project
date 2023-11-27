@@ -1,7 +1,7 @@
 import re
 import playwright
 from playwright.sync_api import Playwright, sync_playwright, expect
-from pom.input_form_page import TestInputFormPage
+from input_form_page import TestInputFormPage
 import time
 
 # the first 3 test cases were written by me as part of the training for lambdatest certification

@@ -1,4 +1,4 @@
-from pom.api_client import SimpleClient
+from api_client import SimpleClient
 
 
 def test_get1(simple_client: SimpleClient):
